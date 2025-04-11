@@ -1,0 +1,19 @@
+[project]
+name = "upassist"
+version = "0.0.1"
+authors = [
+  { name="michael7nightingale", email="suslanchikmopl@gmail.com" },
+]
+description = "Official Upasist Cloud API python SDK"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/upassist-cloud/upassist-python"
+Issues = "https://github.com/upassist-cloud/upassist-python/issues"
