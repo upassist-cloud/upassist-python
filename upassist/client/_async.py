@@ -1,8 +1,8 @@
 import importlib.util
 from typing import Any
 
-from .abstract import AbstractAPIClient
 from ..errors import APIError
+from .abstract import AbstractAPIClient
 
 
 class AsyncAPIClient(AbstractAPIClient):
