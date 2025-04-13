@@ -2,6 +2,7 @@ import importlib.util
 from typing import Any
 
 from .abstract import AbstractAPIClient
+from ..errors import APIError
 
 
 class SyncAPIClient(AbstractAPIClient):
@@ -29,4 +30,6 @@ class SyncAPIClient(AbstractAPIClient):
             json=json,
             params=params,
         )
+        if not response.ok:
+            raise APIError(response.json())
         return response.json()

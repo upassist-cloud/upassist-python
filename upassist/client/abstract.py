@@ -18,10 +18,24 @@ class AbstractAPIClient(ABC):
         return
 
     @abstractmethod
-    def _request(self, method: str, url: str, params: dict | None = None, headers: dict | None = None, json: dict | None = None) -> Any:
+    def _request(
+        self,
+        method: str,
+        url: str,
+        params: dict | None = None,
+        headers: dict | None = None,
+        json: dict | None = None,
+    ) -> Any:
         return
 
-    def request(self, method: str, url: str, params: dict | None = None, headers: dict | None = None, json: dict | None = None) -> Any:
+    def request(
+        self,
+        method: str,
+        url: str,
+        params: dict | None = None,
+        headers: dict | None = None,
+        json: dict | None = None,
+    ) -> Any:
         if headers is None:
             headers = {}
         if self.api_key:

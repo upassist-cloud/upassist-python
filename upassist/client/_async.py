@@ -2,6 +2,7 @@ import importlib.util
 from typing import Any
 
 from .abstract import AbstractAPIClient
+from ..errors import APIError
 
 
 class AsyncAPIClient(AbstractAPIClient):
@@ -26,4 +27,6 @@ class AsyncAPIClient(AbstractAPIClient):
             async with session.request(
                 method, url, headers=headers, json=json, params=params
             ) as response:
+                if not response.ok:
+                    raise APIError(await response.json())
                 return await response.json()
