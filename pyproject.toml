@@ -1,6 +1,6 @@
 [project]
 name = "upassist"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="michael7nightingale", email="suslanchikmopl@gmail.com" },
 ]
