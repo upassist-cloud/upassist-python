@@ -11,7 +11,7 @@ class AbstractAPIClient(ABC):
 
     @property
     def base_api_url(self) -> str:
-        return f"https://api.upassist.cloud/{self.api_version}/"
+        return f"https://api.upassist.cloud/{self.api_version}"
 
     @abstractmethod
     def _check_required_packages(self) -> None:

@@ -1,6 +1,6 @@
-from . import config
-from .client import AbstractAPIClient, AsyncAPIClient, SyncAPIClient
-from .entities import Heartbeat
+from upassist import config
+from upassist.client import AbstractAPIClient, AsyncAPIClient, SyncAPIClient
+from upassist.entities import Heartbeat, Logs
 
 __all__ = (
     "Heartbeat",
@@ -8,4 +8,5 @@ __all__ = (
     "SyncAPIClient",
     "AbstractAPIClient",
     "AsyncAPIClient",
+    "Logs",
 )

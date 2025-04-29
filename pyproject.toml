@@ -13,6 +13,10 @@ classifiers = [
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "pydantic>=2.11.3",
+    "pydantic-extra-types>=2.1.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/upassist-cloud/upassist-python"
