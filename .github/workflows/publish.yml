@@ -1,110 +1,89 @@
-name: Publish to PyPI
+name: Publish Package
 
 on:
   release:
-    types: [published]
+    types: [created]
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
+      - uses: actions/checkout@v4
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: "pip"
-
+          python-version: "3.8"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install tomli
-
       - name: Validate version
         run: |
-          # Extract version from pyproject.toml
-          PYPROJECT_VERSION=$(python -c "import tomli; print(tomli.load(open('pyproject.toml', 'rb'))['project']['version'])")
-          # Extract version from release tag
-          RELEASE_VERSION="${GITHUB_REF#refs/tags/v}"
+          # Get version from version.py
+          VERSION=$(python -c "import upassist.version; print(upassist.version.__version__)")
+          # Get tag version (remove 'v' prefix if present)
+          TAG_VERSION=${GITHUB_REF#refs/tags/}
+          TAG_VERSION=${TAG_VERSION#v}
           
-          echo "PyProject version: $PYPROJECT_VERSION"
-          echo "Release version: $RELEASE_VERSION"
-          
-          if [ "$PYPROJECT_VERSION" != "$RELEASE_VERSION" ]; then
-            echo "Version mismatch: pyproject.toml version ($PYPROJECT_VERSION) does not match release version ($RELEASE_VERSION)"
+          if [ "$VERSION" != "$TAG_VERSION" ]; then
+            echo "Version mismatch: version.py has $VERSION but release tag is $TAG_VERSION"
             exit 1
           fi
+          echo "Version validation successful: $VERSION"
 
   test-publish:
     needs: validate
     runs-on: ubuntu-latest
+    environment: test
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
+      - uses: actions/checkout@v4
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: "pip"
-
+          python-version: "3.8"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install build twine
-
       - name: Build package
-        run: |
-          python -m build
-
+        run: python -m build
       - name: Publish to TestPyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
         run: |
-          python -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+          python -m twine upload --repository testpypi dist/*
 
   publish:
     needs: test-publish
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/upassist
+    environment: production
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
+      - uses: actions/checkout@v4
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: "pip"
-
+          python-version: "3.8"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install build twine
-
       - name: Build package
+        run: python -m build
+      - name: Check for sensitive information
         run: |
-          python -m build
-
-      - name: Verify package contents
-        run: |
-          # Check for common security issues
-          if grep -r "password\|secret\|key\|token" dist/; then
-            echo "Potential security issue: sensitive information found in package"
+          # Check for potential API keys or secrets
+          if grep -r "api[_-]key\|secret\|password\|token" --include="*.py" .; then
+            echo "Potential sensitive information found in code"
             exit 1
           fi
-          
-          # Verify package structure
-          if ! python -c "import upassist; print(upassist.__version__)"; then
-            echo "Package import test failed"
+      - name: Verify package structure
+        run: |
+          # Check if version.py exists and contains version
+          if ! grep -q '__version__' upassist/version.py; then
+            echo "version.py missing or invalid"
             exit 1
           fi
-
       - name: Publish to PyPI
         env:
           TWINE_USERNAME: __token__
