@@ -4,18 +4,25 @@ This section contains the release notes for all versions of the Upassist Python 
 
 ## Latest Release
 
-### [v0.0.6](0.0.6.md) - Documentation and Build System Improvements
+### [v0.0.7](0.0.7.md) - Documentation and Python Version Update
 
 **Key Features:**
-- 📚 Comprehensive API documentation with MkDocs
-- 🛠️ Enhanced build system with dynamic version management
-- 🔧 Improved code quality tools (ruff, isort, black)
-- 🔒 Added security checks and version validation
-- 📦 Updated package management and dependencies
+- 📚 Enhanced documentation with release notes section
+- 🐍 Updated Python version requirement to 3.9+
+- 🔧 Improved build system and package management
+- 🛠️ Enhanced development workflow and CI/CD
+- 📦 Updated dependencies and security checks
 
-[Read full release notes](0.0.6.md)
+[Read full release notes](0.0.7.md)
 
 ## Previous Releases
+
+### [v0.0.6](0.0.6.md) - Documentation and Build System Improvements
+- Comprehensive API documentation with MkDocs
+- Enhanced build system with dynamic version management
+- Improved code quality tools (ruff, isort, black)
+- Added security checks and version validation
+- Updated package management and dependencies
 
 ### v0.0.5
 - Initial public release
@@ -28,7 +35,8 @@ This section contains the release notes for all versions of the Upassist Python 
 
 | Version | Status      | Python Versions | Release Date |
 |---------|-------------|----------------|--------------|
-| 0.0.6   | Current     | ≥3.9           | 2024-03-19   |
+| 0.0.7   | Current     | ≥3.9           | 2024-03-20   |
+| 0.0.6   | Supported   | ≥3.9           | 2024-03-19   |
 | 0.0.5   | Deprecated  | ≥3.9           | 2024-03-18   |
 
 ## Upgrade Guide
