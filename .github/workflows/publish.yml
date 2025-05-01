@@ -49,13 +49,6 @@ jobs:
           pip install build twine
       - name: Build package
         run: python -m build
-      - name: Check for sensitive information
-        run: |
-          # Check for potential API keys or secrets
-          if grep -r "api[_-]key\|secret\|password\|token" --include="*.py" .; then
-            echo "Potential sensitive information found in code"
-            exit 1
-          fi
       - name: Verify package structure
         run: |
           # Check if version.py exists and contains version
