@@ -8,7 +8,7 @@ This section contains the release notes for all versions of the Upassist Python 
 
 **Key Features:**
 - 📚 Enhanced documentation with release notes section
-- 🐍 Updated Python version requirement to 3.9+
+- 🐍 Updated Python version requirement to 3.10+
 - 🔧 Improved build system and package management
 - 🛠️ Enhanced development workflow and CI/CD
 - 📦 Updated dependencies and security checks
@@ -35,9 +35,9 @@ This section contains the release notes for all versions of the Upassist Python 
 
 | Version | Status      | Python Versions | Release Date |
 |---------|-------------|----------------|--------------|
-| 0.0.7   | Current     | ≥3.9           | 2024-03-20   |
-| 0.0.6   | Supported   | ≥3.9           | 2024-03-19   |
-| 0.0.5   | Deprecated  | ≥3.9           | 2024-03-18   |
+| 0.0.7   | Current     | ≥3.10          | 2024-03-20   |
+| 0.0.6   | Supported   | ≥3.10          | 2024-03-19   |
+| 0.0.5   | Deprecated  | ≥3.10          | 2024-03-18   |
 
 ## Upgrade Guide
 

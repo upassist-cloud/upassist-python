@@ -6,7 +6,7 @@ authors = [
 ]
 description = "Official Upasist Cloud API python SDK"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -72,8 +72,8 @@ known_first_party = ["upassist"]
 # Same line length as black
 line-length = 120
 
-# Assume Python 3.9
-target-version = "py39"
+# Assume Python 3.10
+target-version = "py310"
 
 [tool.ruff.lint]
 # Enable pycodestyle, Pyflakes, and import sorting
@@ -102,7 +102,7 @@ line-ending = "auto"
 
 [tool.black]
 line-length = 120
-target-version = ["py39"]
+target-version = ["py310"]
 include = '\.pyi?$'
 extend-exclude = '''
 # A regex preceded with ^/ will apply only to files and directories
