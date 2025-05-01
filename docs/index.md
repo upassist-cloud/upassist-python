@@ -41,6 +41,9 @@ pip install upassist[docs]
 - [Installation](installation.md): Detailed installation instructions
 - [Configuration](configuration.md): How to configure the SDK
 - [API Reference](reference/): Detailed API documentation
-  - [Heartbeat](reference/heartbeat.md): Heartbeat monitoring functionality
-  - [Logs](reference/logs.md): Log management functionality
-  - [API Clients](reference/api_clients.md): API client documentation 
+  - [Heartbeat](reference/entities/heartbeat/index.md): Heartbeat monitoring functionality
+  - [Logs](reference/entities/logs/index.md): Log management functionality
+  - [API Clients](reference/client/index.md): API client documentation
+- [Release Notes](releases/): Version history and changes
+  - [Latest Release](releases/): Overview of all releases and version support
+  - [v0.0.6](releases/0.0.6.md): Documentation improvements and build system enhancements 

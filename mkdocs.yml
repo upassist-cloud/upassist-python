@@ -105,6 +105,7 @@ nav:
     - Heartbeat: reference/entities/heartbeat/index.md
     - Logs: reference/entities/logs/index.md
     - API Clients: reference/client/index.md 
+  - Releases: releases/index.md
 
 extra:
   footer_links:
