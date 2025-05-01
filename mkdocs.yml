@@ -1,0 +1,119 @@
+site_name: Upassist Python SDK
+site_description: Official Upassist Cloud API Python SDK Documentation
+site_author: michael7nightingale
+site_url: https://upassist.cloud
+repo_url: https://github.com/upassist-cloud/upassist-python
+repo_name: upassist-cloud/upassist-python
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.footer
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+  logo: assets/images/logo.svg
+  favicon: assets/images/favicon-dark.svg
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  # Custom colors from UI kit
+  custom_colors:
+    light:
+      primary: "#4768DD"    # Primary Blue
+      accent: "#757680"     # Gray
+      background: "#F4F5F8" # Light theme BG
+      text: "#2F3031"       # Black
+    dark:
+      primary: "#4768DD"    # Primary Blue
+      accent: "#757680"     # Gray
+      background: "#2F3031" # Black
+      text: "#F4F5F8"       # Light theme BG
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_source: true
+            show_root_heading: true
+            show_category_heading: true
+            show_if_no_docstring: true
+            show_signature_annotations: true
+            show_signature_return_annotation: true
+            show_bases: true
+            show_submodules: true
+            heading_level: 2
+            docstring_style: google
+            docstring_options:
+              trim_doctest_flags: true
+              ignore_init_summary: true
+          selection:
+            docstring_style: google
+            inherited_members: true
+            filters: ["!^_"]
+  - gen-files:
+      scripts:
+        - docs/gen_ref_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - API Reference:
+    - Overview: reference/index.md
+    - Heartbeat: reference/entities/heartbeat/index.md
+    - Logs: reference/entities/logs/index.md
+    - API Clients: reference/client/index.md 
+
+extra:
+  footer_links:
+    - text: "Privacy Policy"
+      href: "https://anter.dev/privacy"
+    - text: "Imprint"
+      href: "https://anter.dev/imprint"
+
+extra:
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://upassist.cloud/

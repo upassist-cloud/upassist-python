@@ -9,9 +9,7 @@ class SyncAPIClient(AbstractAPIClient):
 
     def _check_required_packages(self) -> None:
         if not importlib.util.find_spec("aiohttp"):
-            raise ImportError(
-                "You need to install the `requests` package to use sync client"
-            )
+            raise ImportError("You need to install the `requests` package to use sync client")
 
     def _request(
         self,
@@ -31,5 +29,5 @@ class SyncAPIClient(AbstractAPIClient):
             params=params,
         )
         if not response.ok:
-            raise APIError(response.json())
+            raise APIError(response.json(), response.url)
         return response.json()

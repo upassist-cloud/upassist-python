@@ -10,8 +10,8 @@ from .base import (
 __all__ = (
     "BasePaginatedSchema",
     "BaseSchema",
-    "DetailResponse",
-    "UUIDSchema",
     "CamelCaseSchemaSchema",
+    "DetailResponse",
     "IDSchema",
+    "UUIDSchema",
 )

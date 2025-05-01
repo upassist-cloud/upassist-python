@@ -4,6 +4,6 @@ from .abstract import AbstractAPIClient
 
 __all__ = (
     "AbstractAPIClient",
-    "SyncAPIClient",
     "AsyncAPIClient",
+    "SyncAPIClient",
 )

@@ -9,9 +9,7 @@ class AsyncAPIClient(AbstractAPIClient):
 
     def _check_required_packages(self):
         if not importlib.util.find_spec("aiohttp"):
-            raise ImportError(
-                "You need to install the `aiohttp` package to use async client"
-            )
+            raise ImportError("You need to install the `aiohttp` package to use async client")
 
     async def _request(
         self,
@@ -24,9 +22,7 @@ class AsyncAPIClient(AbstractAPIClient):
         import aiohttp
 
         async with aiohttp.ClientSession() as session:
-            async with session.request(
-                method, url, headers=headers, json=json, params=params
-            ) as response:
+            async with session.request(method, url, headers=headers, json=json, params=params) as response:
                 if not response.ok:
-                    raise APIError(await response.json())
+                    raise APIError(await response.json(), response.url)
                 return await response.json()

@@ -1,5 +1,7 @@
 # Official Upassist Cloud Python SDK
 
+[Upassist Cloud](https://upassist.cloud/) - Monitor your applications and services with ease
+
 ## Installation
 
 ```bash
@@ -52,7 +54,7 @@ heartbeat = upassist.Heartbeat(
 - `unpause()`: Resume a paused heartbeat
 - `delete()`: Delete a heartbeat
 - `event()`: Send a heartbeat event
-- `create(**kwargs)`: Create a new heartbeat. Accepts all heartbeat parameters as keyword arguments (see below)
+- `create(heartbeat: HeartbeatCreateSchema)`: Create a new heartbeat
 
 ### Example: Managing Heartbeats
 
@@ -76,32 +78,37 @@ heartbeat.delete()
 ### Example: Creating a Heartbeat
 
 ```python
+from upassist.entities.heartbeat import Heartbeat, HeartbeatCreateSchema
+from datetime import time
+
 # Create a new heartbeat
-heartbeat = upassist.Heartbeat()
+heartbeat = Heartbeat()
 new_heartbeat = heartbeat.create(
-    name="My Heartbeat",
-    description="Monitor for my scheduled job",
-    group_id="group-123",
-    slug="my-heartbeat",
-    fetch_interval=300,
-    confirmation_period=60,
-    realert_period=3600,
-    alerts_on=True,
-    paused=False,
-    meta={"env": "prod"},
-    call=False,
-    send_sms=False,
-    send_email=True,
-    send_push_notification=False,
-    maintenance_window_from="01:00",
-    maintenance_window_until="02:00",
-    maintenance_window_timezone="Europe/Belfast",
-    alert_week_days=[1, 2, 3, 4, 5],
+    HeartbeatCreateSchema(
+        name="My Heartbeat",
+        description="Monitor for my scheduled job",
+        group_id="group-123",
+        slug="my-heartbeat",
+        fetch_interval=300,
+        confirmation_period=60,
+        realert_period=3600,
+        alerts_on=True,
+        paused=False,
+        meta={"env": "prod"},
+        call=False,
+        send_sms=False,
+        send_email=True,
+        send_push_notification=False,
+        maintenance_window_from=time(1, 0),  # 01:00
+        maintenance_window_until=time(2, 0),  # 02:00
+        maintenance_window_timezone="Europe/Belfast",
+        alert_week_days=[1, 2, 3, 4, 5],
+    )
 )
 print(new_heartbeat)
 ```
 
-#### Parameters for `create`
+#### Parameters for `HeartbeatCreateSchema`
 
 - `name` (str, required): Name of the heartbeat
 - `description` (str, optional): Description
@@ -117,8 +124,8 @@ print(new_heartbeat)
 - `send_sms` (bool, optional): Enable SMS alerts (default: False)
 - `send_email` (bool, optional): Enable email alerts (default: True)
 - `send_push_notification` (bool, optional): Enable push notifications (default: False)
-- `maintenance_window_from` (str, optional): Maintenance window start time
-- `maintenance_window_until` (str, optional): Maintenance window end time
+- `maintenance_window_from` (time, optional): Maintenance window start time
+- `maintenance_window_until` (time, optional): Maintenance window end time
 - `maintenance_window_timezone` (str, optional): Timezone (default: Europe/Belfast)
 - `alert_week_days` (list[int], optional): Days of the week to alert (0=Sunday)
 
@@ -210,3 +217,7 @@ from upassist import AsyncAPIClient
 
 logs = Logs(api_client_cls=AsyncAPIClient)
 ```
+
+---
+
+For more information, visit [Upassist Cloud](https://upassist.cloud/)

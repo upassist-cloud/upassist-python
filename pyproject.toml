@@ -18,6 +18,75 @@ dependencies = [
     "pydantic-extra-types>=2.1.0",
 ]
 
+[project.optional-dependencies]
+docs = [
+    "mkdocs>=1.5.3",
+    "mkdocs-material>=9.5.3",
+    "mkdocstrings[python]>=0.24.0",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-literate-nav>=0.6.1",
+    "mkdocs-section-index>=0.3.8",
+]
+sync = [
+  "requests==2.32.3",
+]
+async = [
+  "requests==2.32.3",
+]
+
 [project.urls]
 Homepage = "https://github.com/upassist-cloud/upassist-python"
 Issues = "https://github.com/upassist-cloud/upassist-python/issues"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 120
+skip = [".git", ".tox", ".venv", "venv", "env", "build", "dist"]
+known_first_party = ["upassist"]
+
+[tool.ruff]
+# Same line length as black
+line-length = 120
+
+# Assume Python 3.12
+target-version = "py312"
+
+[tool.ruff.lint]
+# Enable pycodestyle, Pyflakes, and import sorting
+select = ["E", "F", "I", "N", "W", "B", "C4", "UP", "PL", "RUF"]
+ignore = []
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["upassist"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+^/docs
+'''
