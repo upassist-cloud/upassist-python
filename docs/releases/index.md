@@ -28,8 +28,8 @@ This section contains the release notes for all versions of the Upassist Python 
 
 | Version | Status      | Python Versions | Release Date |
 |---------|-------------|----------------|--------------|
-| 0.0.6   | Current     | ≥3.8           | 2024-03-19   |
-| 0.0.5   | Deprecated  | ≥3.8           | 2024-03-18   |
+| 0.0.6   | Current     | ≥3.9           | 2024-03-19   |
+| 0.0.5   | Deprecated  | ≥3.9           | 2024-03-18   |
 
 ## Upgrade Guide
 
