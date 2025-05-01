@@ -1,6 +1,6 @@
 [project]
 name = "upassist"
-version = "0.0.5"
+dynamic = ["version"]
 authors = [
   { name="michael7nightingale", email="suslanchikmopl@gmail.com" },
 ]
@@ -38,6 +38,24 @@ async = [
 Homepage = "https://github.com/upassist-cloud/upassist-python"
 Issues = "https://github.com/upassist-cloud/upassist-python/issues"
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["upassist"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/upassist"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+source = "regex"
+pattern = '__version__ = "(?P<version>[^"]+)"'
+path = "upassist/version.py"
+
 [tool.isort]
 profile = "black"
 multi_line_output = 3
@@ -53,8 +71,8 @@ known_first_party = ["upassist"]
 # Same line length as black
 line-length = 120
 
-# Assume Python 3.12
-target-version = "py312"
+# Assume Python 3.8
+target-version = "py38"
 
 [tool.ruff.lint]
 # Enable pycodestyle, Pyflakes, and import sorting
@@ -83,7 +101,7 @@ line-ending = "auto"
 
 [tool.black]
 line-length = 120
-target-version = ["py312"]
+target-version = ["py38"]
 include = '\.pyi?$'
 extend-exclude = '''
 # A regex preceded with ^/ will apply only to files and directories
