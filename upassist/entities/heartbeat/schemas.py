@@ -1,5 +1,5 @@
 from datetime import date, datetime, time
-from enum import StrEnum
+from enum import Enum
 from uuid import UUID
 
 from pydantic import BaseModel, Field, NonNegativeInt, PositiveInt
@@ -8,7 +8,7 @@ from pydantic_extra_types.timezone_name import TimeZoneName
 from upassist.schemas.base import BasePaginatedSchema, BaseSchema, UUIDSchema
 
 
-class HeartbeatStatusEnum(StrEnum):
+class HeartbeatStatusEnum(str, Enum):
     """Enumeration of possible heartbeat statuses."""
 
     RUNNING = "RUNNING"
