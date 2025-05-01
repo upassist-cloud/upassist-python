@@ -37,6 +37,7 @@ async = [
 [project.urls]
 Homepage = "https://github.com/upassist-cloud/upassist-python"
 Issues = "https://github.com/upassist-cloud/upassist-python/issues"
+Documentation = "upassist-python.upassist.cloud"
 
 [build-system]
 requires = ["hatchling"]
