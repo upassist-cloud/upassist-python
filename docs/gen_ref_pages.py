@@ -299,10 +299,10 @@ for path in sorted(Path("upassist").rglob("*.py")):
 
             fd.write("## Examples\n\n")
             for example in module_info["examples"]:
-                fd.write(f"### {example['title']}\n\n")
-                fd.write(f"{example['description']}\n\n")
+                fd.write(f"### {example['title']}\n\n")     # type: ignore
+                fd.write(f"{example['description']}\n\n")     # type: ignore
                 fd.write("```python\n")
-                fd.write(example["code"])
+                fd.write(example["code"])     # type: ignore
                 fd.write("\n```\n\n")
 
             fd.write("## API Reference\n\n")

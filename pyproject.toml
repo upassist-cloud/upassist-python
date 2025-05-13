@@ -18,6 +18,11 @@ dependencies = [
     "pydantic-extra-types>=2.1.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/upassist-cloud/upassist-python"
+Issues = "https://github.com/upassist-cloud/upassist-python/issues"
+Documentation = "https://upassist-python.upassist.cloud"
+
 [project.optional-dependencies]
 docs = [
     "mkdocs>=1.5.3",
@@ -28,16 +33,17 @@ docs = [
     "mkdocs-section-index>=0.3.8",
 ]
 sync = [
-  "requests==2.32.3",
+  "requests>=2.32.3",
 ]
 async = [
-  "requests==2.32.3",
+  "aiohttp>=3.11.16",
 ]
-
-[project.urls]
-Homepage = "https://github.com/upassist-cloud/upassist-python"
-Issues = "https://github.com/upassist-cloud/upassist-python/issues"
-Documentation = "http://upassist-python.upassist.cloud"
+uv = [
+    "ruff>=0.11.5",
+    "isort>=6.0.1",
+    "black>=25.1.0",
+    "mypy>=1.15.0"
+]
 
 [build-system]
 requires = ["hatchling"]

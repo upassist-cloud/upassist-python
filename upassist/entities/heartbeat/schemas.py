@@ -56,7 +56,7 @@ class HeartbeatCreateSchema(BaseModel):
     send_push_notification: bool = False
     maintenance_window_from: time | None = None
     maintenance_window_until: time | None = None
-    maintenance_window_timezone: str = "Europe/Belfast"
+    maintenance_window_timezone: TimeZoneName = Field(default=TimeZoneName("Europe/Belfast"))
     alert_week_days: list[int] | None = Field(default_factory=lambda: [0, 1, 2, 3, 4, 5, 6])
 
 
@@ -136,7 +136,7 @@ class HeartbeatSchema(UUIDSchema):
     send_push_notification: bool
     maintenance_window_from: time | None = None
     maintenance_window_until: time | None = None
-    maintenance_window_timezone: TimeZoneName = Field(default="Europe/Belfast")
+    maintenance_window_timezone: TimeZoneName = Field(default=TimeZoneName("Europe/Belfast"))
     alert_week_days: list[int] | None = None
 
 

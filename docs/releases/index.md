@@ -4,20 +4,28 @@ This section contains the release notes for all versions of the Upassist Python 
 
 ## Latest Release
 
-### [v0.0.7](0.0.7.md) - Documentation and Python Version Update
+### [v0.0.8](0.0.8.md) - Bug fixes, Dependencies and Project Management Improvements
 
 **Key Features:**
+
+- 🐍 Bug fixes
+- 🔧 Improved build system and package management
+- 📦 Updated dependencies and type checks
+
+[Read full release notes](0.0.8.md)
+
+## Previous Releases
+
+### [v0.0.7](0.0.8.md) - Documentation and Project Management Improvements
+
 - 📚 Enhanced documentation with release notes section
 - 🐍 Updated Python version requirement to 3.10+
 - 🔧 Improved build system and package management
 - 🛠️ Enhanced development workflow and CI/CD
 - 📦 Updated dependencies and security checks
 
-[Read full release notes](0.0.7.md)
-
-## Previous Releases
-
 ### [v0.0.6](0.0.6.md) - Documentation and Build System Improvements
+
 - Comprehensive API documentation with MkDocs
 - Enhanced build system with dynamic version management
 - Improved code quality tools (ruff, isort, black)
@@ -25,6 +33,7 @@ This section contains the release notes for all versions of the Upassist Python 
 - Updated package management and dependencies
 
 ### v0.0.5
+
 - Initial public release
 - Basic heartbeat monitoring functionality
 - Log management features
@@ -33,11 +42,12 @@ This section contains the release notes for all versions of the Upassist Python 
 
 ## Version Support
 
-| Version | Status      | Python Versions | Release Date |
-|---------|-------------|----------------|--------------|
-| 0.0.7   | Current     | ≥3.10          | 2024-03-20   |
-| 0.0.6   | Supported   | ≥3.10          | 2024-03-19   |
-| 0.0.5   | Deprecated  | ≥3.10          | 2024-03-18   |
+| Version | Status     | Python Versions | Release Date |
+|---------|------------|-----------------|--------------|
+| 0.0.8   | Current    | ≥3.10           | 2025-05-13   |
+| 0.0.7   | Supported  | ≥3.10           | 2025-05-01   |
+| 0.0.6   | Supported  | ≥3.12           | 2025-05-01   |
+| 0.0.5   | Deprecated | ≥3.12           | 2025-04-29   |
 
 ## Upgrade Guide
 
@@ -48,7 +58,9 @@ pip install --upgrade upassist
 ```
 
 For development dependencies:
+
 ```bash
+pip install --upgrade "upassist[dev]"
 pip install --upgrade "upassist[docs]"
 ```
 
@@ -61,6 +73,7 @@ The Upassist Python SDK follows semantic versioning (MAJOR.MINOR.PATCH):
 - **PATCH** version for backwards-compatible bug fixes
 
 We aim to release new versions with the following frequency:
+
 - Major releases: As needed for breaking changes
 - Minor releases: Every 2-3 months
 - Patch releases: As needed for bug fixes
@@ -68,6 +81,7 @@ We aim to release new versions with the following frequency:
 ## Contributing
 
 If you find any issues or have suggestions for improvements, please:
+
 1. Check the [existing issues](https://github.com/upassist-cloud/upassist-python/issues)
 2. Create a new issue if needed
 3. Follow our [contribution guidelines](https://github.com/upassist-cloud/upassist-python/blob/main/CONTRIBUTING.md)

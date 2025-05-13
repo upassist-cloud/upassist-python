@@ -68,7 +68,7 @@ class AbstractAPIClient(ABC):
         url: str,
         params: dict | None = None,
         headers: dict | None = None,
-        json: dict | None = None,
+        json: dict[Any, Any] | list[Any] | None = None,
     ) -> Any:
         return
 
@@ -78,7 +78,7 @@ class AbstractAPIClient(ABC):
         url: str,
         params: dict | None = None,
         headers: dict | None = None,
-        json: dict | None = None,
+        json: dict[Any, Any] | list[Any] | None = None,
     ) -> Any:
         if headers is None:
             headers = {}
@@ -103,7 +103,7 @@ class AbstractAPIClient(ABC):
     def post(
         self,
         url: str,
-        json: dict | None = None,
+        json: dict[Any, Any] | list[Any] | None = None,
         params: dict | None = None,
         headers: dict | None = None,
     ) -> Any:
@@ -112,7 +112,7 @@ class AbstractAPIClient(ABC):
     def put(
         self,
         url: str,
-        json: dict | None = None,
+        json: dict[Any, Any] | list[Any] | None = None,
         params: dict | None = None,
         headers: dict | None = None,
     ) -> Any:
@@ -121,7 +121,7 @@ class AbstractAPIClient(ABC):
     def patch(
         self,
         url: str,
-        json: dict | None = None,
+        json: dict[Any, Any] | list[Any] | None = None,
         params: dict | None = None,
         headers: dict | None = None,
     ) -> Any:

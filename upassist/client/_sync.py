@@ -8,7 +8,7 @@ from .abstract import AbstractAPIClient
 class SyncAPIClient(AbstractAPIClient):
 
     def _check_required_packages(self) -> None:
-        if not importlib.util.find_spec("aiohttp"):
+        if not importlib.util.find_spec("requests"):
             raise ImportError("You need to install the `requests` package to use sync client")
 
     def _request(
@@ -17,9 +17,9 @@ class SyncAPIClient(AbstractAPIClient):
         url: str,
         params: dict | None = None,
         headers: dict | None = None,
-        json: dict | None = None,
+        json: dict[Any, Any] | list[Any] | None = None,
     ) -> Any:
-        import requests
+        import requests  # type: ignore
 
         response = requests.request(
             method=method,

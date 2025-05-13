@@ -17,7 +17,7 @@ class AsyncAPIClient(AbstractAPIClient):
         url: str,
         params: dict | None = None,
         headers: dict | None = None,
-        json: dict | None = None,
+        json: dict[Any, Any] | list[Any] | None = None,
     ) -> Any:
         import aiohttp
 
