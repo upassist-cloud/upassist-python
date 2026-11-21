@@ -1,8 +1,23 @@
-dist/
-build/
-*.egg-info/
 __pycache__/
-*.py[cod]
-.venv/
+build/
+dist/
+*.egg-info/
 .pytest_cache/
-.ruff_cache/
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# JetBrains
+.idea/
+
+/coverage.xml
+/.coverage
