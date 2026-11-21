@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from .sdk import APIError, Client, IngestError
+from .sdk import APIError, IngestError, Upassist
 
 CONFIG_DIR = Path.home() / ".config" / "upassist"
 CONFIG_FILE = CONFIG_DIR / "config.json"
@@ -59,14 +59,14 @@ def _get_api_key(args: argparse.Namespace) -> str:
     sys.exit(1)
 
 
-def _get_client(args: argparse.Namespace) -> Client:
+def _get_client(args: argparse.Namespace) -> Upassist:
     api_key = _get_api_key(args)
     base_url = (
         getattr(args, "base_url", None)
         or os.environ.get("UPASSIST_BASE_URL")
         or "https://api.upassist.cloud"
     )
-    return Client(api_key=api_key, base_url=base_url)
+    return Upassist(api_key=api_key, base_url=base_url)
 
 
 def _print_output(data: Any, as_json: bool = False) -> None:

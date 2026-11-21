@@ -1,11 +1,13 @@
-"""A client library and CLI for accessing Upassist Public API"""
+"""Official Python SDK and CLI for the Upassist Monitoring & Observability Platform."""
 
-from .client import AuthenticatedClient
-from .sdk import AsyncUpassist, Client, Upassist
+from .client import AuthenticatedClient, Client
+from .sdk import APIError, AsyncUpassist, IngestError, Upassist
 
 __all__ = (
-    "AuthenticatedClient",
+    "APIError",
     "AsyncUpassist",
+    "AuthenticatedClient",
     "Client",
+    "IngestError",
     "Upassist",
 )
