@@ -1,0 +1,40 @@
+from enum import StrEnum
+
+
+class APIKeyScopeEnum(StrEnum):
+    API_KEYREAD = "api-key:read"
+    API_KEYWRITE = "api-key:write"
+    DASHBOARDREAD = "dashboard:read"
+    DASHBOARDWRITE = "dashboard:write"
+    ERROR_APPREAD = "error-app:read"
+    ERROR_APPWRITE = "error-app:write"
+    ESCALATIONREAD = "escalation:read"
+    ESCALATIONWRITE = "escalation:write"
+    GROUPSREAD = "groups:read"
+    GROUPSWRITE = "groups:write"
+    HEARTBEATEVENT = "heartbeat:event"
+    HEARTBEATREAD = "heartbeat:read"
+    HEARTBEATWRITE = "heartbeat:write"
+    INCIDENTREAD = "incident:read"
+    INCIDENTWRITE = "incident:write"
+    INTEGRATIONREAD = "integration:read"
+    INTEGRATIONWRITE = "integration:write"
+    LOGSREAD = "logs:read"
+    MAINTENANCEREAD = "maintenance:read"
+    MAINTENANCEWRITE = "maintenance:write"
+    MEMBERREAD = "member:read"
+    MEMBERWRITE = "member:write"
+    METRICSREAD = "metrics:read"
+    MONITORREAD = "monitor:read"
+    MONITORWRITE = "monitor:write"
+    PROJECTREAD = "project:read"
+    RADARREAD = "radar:read"
+    RADARWRITE = "radar:write"
+    SITEEVENT = "site:event"
+    SITEREAD = "site:read"
+    SITEWRITE = "site:write"
+    STATUS_PAGEREAD = "status-page:read"
+    STATUS_PAGEWRITE = "status-page:write"
+
+    def __str__(self) -> str:
+        return str(self.value)

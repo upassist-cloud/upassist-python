@@ -1,223 +1,122 @@
-# Official Upassist Cloud Python SDK
+# upassist
+A client library for accessing Upassist Public API
 
-[Upassist Cloud](https://upassist.cloud/) - Monitor your applications and services with ease
-
-## Installation
-
-```bash
-pip install upassist
-```
-
-## Configuration
-
-Set your API key globally:
+## Usage
+First, create a client:
 
 ```python
-import upassist
+from upassist import Client
 
-upassist.config.API_KEY = 'your-api-key'
+client = Client(base_url="https://api.example.com")
 ```
 
-## Heartbeat
-
-The Heartbeat class provides functionality to manage and interact with heartbeat monitors.
-
-### Basic Usage
+If the endpoints you're going to hit require authentication, use `AuthenticatedClient` instead:
 
 ```python
-import upassist
+from upassist import AuthenticatedClient
 
-# Create a heartbeat instance
-heartbeat = upassist.Heartbeat("your-heartbeat-slug")
-
-# Send a heartbeat event
-heartbeat.event()
+client = AuthenticatedClient(base_url="https://api.example.com", token="SuperSecretToken")
 ```
 
-### Advanced Usage
-
-You can also specify API credentials and version when creating a heartbeat instance:
+Now call your endpoint and use your models:
 
 ```python
-heartbeat = upassist.Heartbeat(
-    heartbeat_slug="your-heartbeat-slug",
-    api_key="your-api-key",  # Optional, defaults to upassist.config.API_KEY
-    api_version="v1",        # Optional, defaults to upassist.config.API_VERSION
+from upassist.models import MyDataModel
+from upassist.api.my_tag import get_my_data_model
+from upassist.types import Response
+
+with client as client:
+    my_data: MyDataModel = get_my_data_model.sync(client=client)
+    # or if you need more info (e.g. status_code)
+    response: Response[MyDataModel] = get_my_data_model.sync_detailed(client=client)
+```
+
+Or do the same thing with an async version:
+
+```python
+from upassist.models import MyDataModel
+from upassist.api.my_tag import get_my_data_model
+from upassist.types import Response
+
+async with client as client:
+    my_data: MyDataModel = await get_my_data_model.asyncio(client=client)
+    response: Response[MyDataModel] = await get_my_data_model.asyncio_detailed(client=client)
+```
+
+By default, when you're calling an HTTPS API it will attempt to verify that SSL is working correctly. Using certificate verification is highly recommended most of the time, but sometimes you may need to authenticate to a server (especially an internal server) using a custom certificate bundle.
+
+```python
+client = AuthenticatedClient(
+    base_url="https://internal_api.example.com",
+    token="SuperSecretToken",
+    verify_ssl="/path/to/certificate_bundle.pem",
 )
 ```
 
-### Available Methods
-
-- `list(q=None, page=None, per_page=None)`: List all heartbeats with optional filtering and pagination
-- `detail()`: Get details of a specific heartbeat
-- `pause()`: Pause a heartbeat
-- `unpause()`: Resume a paused heartbeat
-- `delete()`: Delete a heartbeat
-- `event()`: Send a heartbeat event
-- `create(heartbeat: HeartbeatCreateSchema)`: Create a new heartbeat
-
-### Example: Managing Heartbeats
+You can also disable certificate validation altogether, but beware that **this is a security risk**.
 
 ```python
-# List all heartbeats
-heartbeats = heartbeat.list()
-
-# Get details of a specific heartbeat
-details = heartbeat.detail()
-
-# Pause a heartbeat
-heartbeat.pause()
-
-# Resume a heartbeat
-heartbeat.unpause()
-
-# Delete a heartbeat
-heartbeat.delete()
+client = AuthenticatedClient(base_url="https://internal_api.example.com", token="SuperSecretToken", verify_ssl=False)
 ```
 
-### Example: Creating a Heartbeat
+Things to know:
+1. Every path/method combo becomes a Python module with four functions:
+    1. `sync`: Blocking request that returns parsed data (if successful) or `None`
+    1. `sync_detailed`: Blocking request that always returns a `Request`, optionally with `parsed` set if the request was successful.
+    1. `asyncio`: Like `sync` but async instead of blocking
+    1. `asyncio_detailed`: Like `sync_detailed` but async instead of blocking
+
+1. All path/query params, and bodies become method arguments.
+1. If your endpoint had any tags on it, the first tag will be used as a module name for the function (my_tag above)
+1. Any endpoint which did not have a tag will be in `upassist.api.default`
+
+## Advanced customizations
+
+There are more settings on the generated `Client` class which let you control more runtime behavior, check out the docstring on that class for more info. You can also customize the underlying `httpx.Client` or `httpx.AsyncClient` (depending on your use-case):
 
 ```python
-from upassist.entities.heartbeat import Heartbeat, HeartbeatCreateSchema
-from datetime import time
+from upassist import Client
 
-# Create a new heartbeat
-heartbeat = Heartbeat()
-new_heartbeat = heartbeat.create(
-    HeartbeatCreateSchema(
-        name="My Heartbeat",
-        description="Monitor for my scheduled job",
-        group_id="group-123",
-        slug="my-heartbeat",
-        fetch_interval=300,
-        confirmation_period=60,
-        realert_period=3600,
-        alerts_on=True,
-        paused=False,
-        meta={"env": "prod"},
-        call=False,
-        send_sms=False,
-        send_email=True,
-        send_push_notification=False,
-        maintenance_window_from=time(1, 0),  # 01:00
-        maintenance_window_until=time(2, 0),  # 02:00
-        maintenance_window_timezone="Europe/Belfast",
-        alert_week_days=[1, 2, 3, 4, 5],
-    )
+
+def log_request(request):
+    print(f"Request event hook: {request.method} {request.url} - Waiting for response")
+
+
+def log_response(response):
+    request = response.request
+    print(f"Response event hook: {request.method} {request.url} - Status {response.status_code}")
+
+
+client = Client(
+    base_url="https://api.example.com",
+    httpx_args={"event_hooks": {"request": [log_request], "response": [log_response]}},
 )
-print(new_heartbeat)
+
+# Or get the underlying httpx client to modify directly with client.get_httpx_client() or client.get_async_httpx_client()
 ```
 
-#### Parameters for `HeartbeatCreateSchema`
-
-- `name` (str, required): Name of the heartbeat
-- `description` (str, optional): Description
-- `group_id` (str, optional): Group identifier
-- `slug` (str, optional): Slug for the heartbeat
-- `fetch_interval` (int, optional): Interval in seconds (default: 180)
-- `confirmation_period` (int, optional): Seconds to wait before starting incident (default: 0)
-- `realert_period` (int, optional): Seconds to notify users again about unresolved incident
-- `alerts_on` (bool, optional): Alerts on incident messages (default: True)
-- `paused` (bool, optional): Whether the heartbeat is paused (default: False)
-- `meta` (dict, optional): Metadata object
-- `call` (bool, optional): Enable call alerts (default: False)
-- `send_sms` (bool, optional): Enable SMS alerts (default: False)
-- `send_email` (bool, optional): Enable email alerts (default: True)
-- `send_push_notification` (bool, optional): Enable push notifications (default: False)
-- `maintenance_window_from` (time, optional): Maintenance window start time
-- `maintenance_window_until` (time, optional): Maintenance window end time
-- `maintenance_window_timezone` (str, optional): Timezone (default: Europe/Belfast)
-- `alert_week_days` (list[int], optional): Days of the week to alert (0=Sunday)
-
-## API Clients
-
-The SDK provides both synchronous and asynchronous API clients:
+You can even set the httpx client directly, but beware that this will override any existing settings (e.g., base_url):
 
 ```python
-from upassist import SyncAPIClient, AsyncAPIClient
+import httpx
+from upassist import Client
 
-# Synchronous client
-sync_client = SyncAPIClient(api_key="your-api-key")
-
-# Asynchronous client
-async_client = AsyncAPIClient(api_key="your-api-key")
-```
-
-You can specify which client to use when creating a Heartbeat instance:
-
-```python
-heartbeat = upassist.Heartbeat(
-    "your-heartbeat-slug",
-    api_client_cls=upassist.AsyncAPIClient  # Use async client
+client = Client(
+    base_url="https://api.example.com",
 )
+# Note that base_url needs to be re-set, as would any shared cookies, headers, etc.
+client.set_httpx_client(httpx.Client(base_url="https://api.example.com", proxies="http://localhost:8030"))
 ```
 
-## Logs
+## Building / publishing this package
+This project uses [uv](https://github.com/astral-sh/uv) to manage dependencies and packaging. Here are the basics:
+1. Update the metadata in `pyproject.toml` (e.g. authors, version).
+2. If you're using a private repository: https://docs.astral.sh/uv/guides/integration/alternative-indexes/
+3. Build a distribution with `uv build`, builds `sdist` and `wheel` by default.
+1. Publish the client with `uv publish`, see documentation for publishing to private indexes.
 
-The Logs entity allows you to collect and send log entries to the Upassist Cloud API.
-
-### LogItemSchema Fields
-- `dt` (datetime | None): The date and time of the log entry (ISO 8601 format).
-- `host` (str | None): The host or source of the log entry.
-- `message` (str | None): The log message.
-- `file` (str | None): The file associated with the log entry.
-- `data` (dict | None): Additional structured data for the log entry.
-
-### Available Methods
-
-- `collect(log_entries: list[LogItemSchema])`: Send a batch of log entries to the Upassist Cloud API
-
-### Example: Collecting Logs
-
-```python
-from upassist.entities.logs import Logs, LogItemSchema
-from datetime import datetime
-
-# Initialize the Logs entity
-logs = Logs()
-
-# Create log entries
-log_entries = [
-    LogItemSchema(
-        dt=datetime.utcnow(),
-        host="server1",
-        message="Started job",
-        file="worker.py",
-        data={"job_id": 123}
-    ),
-    LogItemSchema(
-        dt=datetime.utcnow(),
-        host="server1",
-        message="Finished job",
-        file="worker.py",
-        data={"job_id": 123, "status": "success"}
-    ),
-]
-
-# Send logs to Upassist Cloud
-response = logs.collect(log_entries)
-print(response)
-```
-
-### Advanced Usage
-
-You can specify API credentials and version when creating a Logs instance:
-
-```python
-logs = Logs(
-    api_key="your-api-key",  # Log Source API, Optional, defaults to upassist.config.API_KEY
-    api_version="v1",        # Optional, defaults to upassist.config.API_VERSION
-)
-```
-
-You can also use the async client for logging:
-
-```python
-from upassist import AsyncAPIClient
-
-logs = Logs(api_client_cls=AsyncAPIClient)
-```
-
----
-
-For more information, visit [Upassist Cloud](https://upassist.cloud/)
+If you want to install this client into another project without publishing it (e.g. for development) then:
+1. If that project **is using uv**, you can simply do `uv add <path-to-this-client>` from that project
+1. If that project is not using uv:
+    1. Build a wheel with `uv build --wheel`.
+    1. Install that wheel from the other project `pip install <path-to-wheel>`.

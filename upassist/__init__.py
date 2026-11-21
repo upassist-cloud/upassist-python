@@ -1,12 +1,11 @@
-from upassist import config
-from upassist.client import AbstractAPIClient, AsyncAPIClient, SyncAPIClient
-from upassist.entities import Heartbeat, Logs
+"""A client library and CLI for accessing Upassist Public API"""
+
+from .client import AuthenticatedClient
+from .sdk import AsyncUpassist, Client, Upassist
 
 __all__ = (
-    "AbstractAPIClient",
-    "AsyncAPIClient",
-    "Heartbeat",
-    "Logs",
-    "SyncAPIClient",
-    "config",
+    "AuthenticatedClient",
+    "AsyncUpassist",
+    "Client",
+    "Upassist",
 )
