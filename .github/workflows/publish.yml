@@ -22,10 +22,64 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.12
+          python-version: "3.12"
 
       - name: Build sdist and wheel
         run: uv build
 
       - name: Publish package to PyPI
         run: uv publish --token ${{ secrets.PYPI_API_TOKEN }}
+
+  notify:
+    name: Notify Telegram
+    runs-on: ubuntu-latest
+    needs: [build-and-publish]
+    if: always()
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Send deployment notification
+        continue-on-error: true
+        env:
+          WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+          STATUS: ${{ needs.build-and-publish.result }}
+          REPO: ${{ github.repository }}
+          WORKFLOW: ${{ github.workflow }}
+          ENVIRONMENT: prod
+          REF_NAME: ${{ github.ref_name }}
+          COMMIT_HASH: ${{ github.sha }}
+          ACTOR: ${{ github.actor }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          APP_NAME: Upassist Python SDK & CLI
+          SITE_URL: https://pypi.org/project/upassist/
+        run: |
+          case "$STATUS" in
+            success|cancelled) ;;
+            *) STATUS="failure" ;;
+          esac
+
+          COMMIT_MESSAGE="$(git log -1 --pretty=%s 2>/dev/null || true)"
+
+          payload=$(jq -n \
+            --arg status "$STATUS" \
+            --arg repository "$REPO" \
+            --arg workflow "$WORKFLOW" \
+            --arg environment "$ENVIRONMENT" \
+            --arg ref_name "$REF_NAME" \
+            --arg commit_hash "$COMMIT_HASH" \
+            --arg commit_message "$COMMIT_MESSAGE" \
+            --arg actor "$ACTOR" \
+            --arg run_url "$RUN_URL" \
+            --arg app_name "$APP_NAME" \
+            --arg url "$SITE_URL" \
+            '{status:$status, repository:$repository, workflow:$workflow,
+              environment:$environment, ref_name:$ref_name, commit_hash:$commit_hash,
+              commit_message:$commit_message, actor:$actor, run_url:$run_url,
+              app_name:$app_name, url:$url}')
+
+          curl -sS --max-time 15 -X POST \
+            -H "Content-Type: application/json" \
+            -d "$payload" "$WEBHOOK_URL"
