@@ -60,6 +60,8 @@ from .heartbeat_update_schema import HeartbeatUpdateSchema
 from .heartbeat_update_schema_meta_type_0 import HeartbeatUpdateSchemaMetaType0
 from .heartbeat_validation_error import HeartbeatValidationError
 from .incident_content_type_enum import IncidentContentTypeEnum
+from .incident_create_schema import IncidentCreateSchema
+from .incident_create_schema_meta_type_0 import IncidentCreateSchemaMetaType0
 from .incident_detail_schema import IncidentDetailSchema
 from .incident_detail_schema_meta_type_0 import IncidentDetailSchemaMetaType0
 from .incident_public_paginated_schema import IncidentPublicPaginatedSchema
@@ -258,6 +260,8 @@ __all__ = (
     "HeartbeatUpdateSchemaMetaType0",
     "HeartbeatValidationError",
     "IncidentContentTypeEnum",
+    "IncidentCreateSchema",
+    "IncidentCreateSchemaMetaType0",
     "IncidentDetailSchema",
     "IncidentDetailSchemaMetaType0",
     "IncidentPublicPaginatedSchema",

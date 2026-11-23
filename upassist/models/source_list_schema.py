@@ -37,6 +37,8 @@ class SourceListSchema:
         metrics_points_24h (int | Unset):  Default: 0.
         metrics_active_series_24h (int | Unset):  Default: 0.
         metrics_bytes_total (int | Unset):  Default: 0.
+        health_status (str | Unset):  Default: 'OFFLINE'.
+        current_eps (float | Unset):  Default: 0.0.
     """
 
     id: UUID
@@ -56,6 +58,8 @@ class SourceListSchema:
     metrics_points_24h: int | Unset = 0
     metrics_active_series_24h: int | Unset = 0
     metrics_bytes_total: int | Unset = 0
+    health_status: str | Unset = "OFFLINE"
+    current_eps: float | Unset = 0.0
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -113,6 +117,10 @@ class SourceListSchema:
 
         metrics_bytes_total = self.metrics_bytes_total
 
+        health_status = self.health_status
+
+        current_eps = self.current_eps
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -148,6 +156,10 @@ class SourceListSchema:
             field_dict["metrics_active_series_24h"] = metrics_active_series_24h
         if metrics_bytes_total is not UNSET:
             field_dict["metrics_bytes_total"] = metrics_bytes_total
+        if health_status is not UNSET:
+            field_dict["health_status"] = health_status
+        if current_eps is not UNSET:
+            field_dict["current_eps"] = current_eps
 
         return field_dict
 
@@ -234,6 +246,10 @@ class SourceListSchema:
 
         metrics_bytes_total = d.pop("metrics_bytes_total", UNSET)
 
+        health_status = d.pop("health_status", UNSET)
+
+        current_eps = d.pop("current_eps", UNSET)
+
         source_list_schema = cls(
             id=id,
             name=name,
@@ -252,6 +268,8 @@ class SourceListSchema:
             metrics_points_24h=metrics_points_24h,
             metrics_active_series_24h=metrics_active_series_24h,
             metrics_bytes_total=metrics_bytes_total,
+            health_status=health_status,
+            current_eps=current_eps,
         )
 
         source_list_schema.additional_properties = d
